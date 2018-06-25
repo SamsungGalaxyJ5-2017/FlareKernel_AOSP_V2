@@ -412,7 +412,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -mtune=cortex-a53 \
 		   -std=gnu89
 
-KBUILD_AFLAGS_KERNEL := -march=-march=armv8-a+crc+simd+crypto
+KBUILD_AFLAGS_KERNEL := -march=armv8-a+crc+simd+crypto
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
 KBUILD_AFLAGS_MODULE  := -DMODULE
