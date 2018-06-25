@@ -42,6 +42,8 @@
 #include <linux/state_notifier.h>
 #endif
 
+#include <linux/display_state.h>
+
 #include "decon.h"
 #include "dsim.h"
 #include "decon_helper.h"
@@ -70,6 +72,13 @@ static int decon_runtime_resume(struct device *dev);
 static int decon_runtime_suspend(struct device *dev);
 static void decon_set_protected_content(struct decon_device *decon,
 				struct decon_reg_data *regs, bool enable);
+
+bool display_on = true;
+
+bool is_display_on()
+{
+	return display_on;
+}
 
 #ifdef CONFIG_USE_VSYNC_SKIP
 static atomic_t extra_vsync_wait;
@@ -1240,6 +1249,8 @@ static int decon_blank(int blank_mode, struct fb_info *info)
 		state_suspend();
 #endif
 
+display_on = false;
+
 		break;
 	case FB_BLANK_UNBLANK:
 		DISP_SS_EVENT_LOG(DISP_EVT_UNBLANK, &decon->sd, ktime_set(0, 0));
@@ -1252,6 +1263,8 @@ static int decon_blank(int blank_mode, struct fb_info *info)
 #ifdef CONFIG_STATE_NOTIFIER
 		state_resume();
 #endif
+
+display_on = true;
 
 		break;
 	case FB_BLANK_VSYNC_SUSPEND:
